@@ -92,7 +92,7 @@ def run_app():
 
                 # check the input is a number.
                 if selected_team.isdigit() == False:
-                    raise Exception(f'\nOops. This is not an integar. Please try again.')
+                    raise Exception(f'\nOops. This is not an integer. Please try again.')
 
                 # check the input is within the range.
                 if 1 > int(selected_team) or int(selected_team) > len(teams):
@@ -162,7 +162,7 @@ def run_app():
         
         # print errors  
         except ValueError:
-            print('That is not a integar. Please try again.')
+            print('That is not a integer. Please try again.')
         except Exception as e:
             print(e)
 
