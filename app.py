@@ -102,7 +102,7 @@ def run_app():
                 for index, team in enumerate(all_roster_details):
 
                     # create/print team details
-                    if selected_team == (index+1):
+                    if int(selected_team) == (index+1):
 
                         player_names = []
                         for player in team['roster_list']:
