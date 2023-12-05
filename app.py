@@ -79,29 +79,30 @@ def run_app():
         try: 
             start = input("\nWould you like to view team roster details? (y/n)  ")
 
-            # handle exception
+            # handle if input is not y or n
             if start.lower() != 'y' and start.lower() != 'n':
                 raise Exception(f'\nPlease select y/n.\n')
-            
+
+            # print list of team, ask user to select
             if start.lower() == 'y':
                 print("\n\nHere is a list of our teams:")
                 for index, team in enumerate(all_roster_details):
                     print(f"{index+1}. {team['team_name']}")
                 selected_team = input('\nPlease select a team number:  ')
 
+                # check the input is a number.
+                if selected_team.isdigit() == False:
+                    raise Exception(f'\nOops. This is not an integar. Please try again.')
+
+                # check the input is within the range.
+                if 1 > int(selected_team) or int(selected_team) > len(teams):
+                    raise Exception(f'\nOops. Please select a number corresponding to a team on this list.\n')
+
                 # print content for selected team
                 for index, team in enumerate(all_roster_details):
 
-                    # check the input is within the range.
-                    if selected_team.isdigit() == False:
-                        raise Exception(f'\nOops. This is not an integar. Please try again.')
-
-                    selected_team = int(selected_team)
-                    if 1 > selected_team or selected_team > len(teams):
-                        raise Exception(f'\nOops. Please select a number corresponding to a team on this list.\n')
-
-                    # team details
-                    if int(selected_team) == (index+1):
+                    # create/print team details
+                    if selected_team == (index+1):
 
                         player_names = []
                         for player in team['roster_list']:
@@ -118,10 +119,10 @@ def run_app():
     Players: {player_names}
                                """)
                         
-                        # as if user wants more details
+                        # ask if user wants more details
                         show_more = input(f"\n    ---> Would you like to see more roster details for the {team['team_name']}? (y/n)  ")
                         
-                        # handle exception
+                        # handle if input is not y or n
                         if show_more.lower() != 'y' and show_more.lower() != 'n':
                             raise Exception(f'Please select y/n.\n')
                         
@@ -130,7 +131,7 @@ def run_app():
                             print('_____________________\n')
                             break
                         
-                        # generate additional details
+                        # generate/print additional details
                         else:
                             experienced_players = []
                             non_exp_players = []
@@ -172,4 +173,5 @@ if __name__ == "__main__":
     balance_teams(cleaned_players)
 
     run_app()
+
 
