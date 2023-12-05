@@ -8,7 +8,6 @@ cleaned_players = []
 
 def clean_data():
     
-    # cleaned_players = []
     for player in players:
 
         # create boolean for player experience
@@ -47,21 +46,23 @@ def balance_teams(player_data):
         else:
             non_exp_players.append(player)
 
+    # calculate needed player numbers
     players_per_team = int(len(players) / len(teams))
     exp_players_per_team = int(len(experienced_players) / len(teams))
     non_exp_players_per_team = int(len(non_exp_players) / len(teams))
+
 
     for team in teams:
 
         roster_list = []
 
-
+        # add players
         for i in range(0, exp_players_per_team):
             roster_list.append(experienced_players.pop(0))
         for i in range(0, non_exp_players_per_team):
             roster_list.append(non_exp_players.pop(0))
-    
 
+        # create team details
         team_details = {
             "team_name": team,
             "roster_list": roster_list,
@@ -73,9 +74,12 @@ def balance_teams(player_data):
 
 def run_app():
 
+    # continue running the app until user quits
     while True:
         try: 
-            start = input("\nWould you like to view roster details? (y/n)  ")
+            start = input("\nWould you like to view team roster details? (y/n)  ")
+
+            # handle exception
             if start.lower() != 'y' and start.lower() != 'n':
                 raise Exception(f'\nPlease select y/n.\n')
             
@@ -85,11 +89,18 @@ def run_app():
                     print(f"{index+1}. {team['team_name']}")
                 selected_team = input('\nPlease select a team number:  ')
 
+                # print content for selected team
                 for index, team in enumerate(all_roster_details):
 
-                    if 1 > int(selected_team) or int(selected_team) > len(teams):
+                    # check the input is within the range.
+                    if selected_team.isdigit() == False:
+                        raise Exception(f'\nOops. This is not an integar. Please try again.')
+
+                    selected_team = int(selected_team)
+                    if 1 > selected_team or selected_team > len(teams):
                         raise Exception(f'\nOops. Please select a number corresponding to a team on this list.\n')
 
+                    # team details
                     if int(selected_team) == (index+1):
 
                         player_names = []
@@ -107,12 +118,19 @@ def run_app():
     Players: {player_names}
                                """)
                         
+                        # as if user wants more details
                         show_more = input(f"\n    ---> Would you like to see more roster details for the {team['team_name']}? (y/n)  ")
+                        
+                        # handle exception
                         if show_more.lower() != 'y' and show_more.lower() != 'n':
                             raise Exception(f'Please select y/n.\n')
+                        
+                        #if no, quit.
                         elif show_more.lower() == "n":
                             print('_____________________\n')
                             break
+                        
+                        # generate additional details
                         else:
                             experienced_players = []
                             non_exp_players = []
@@ -141,11 +159,13 @@ def run_app():
                 break
             
         
-        # handle errors   
+        # print errors  
+        except ValueError:
+            print('That is not a integar. Please try again.')
         except Exception as e:
             print(e)
 
-
+# run the program
 if __name__ == "__main__":
 
     clean_data()
